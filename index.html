@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hobbyo. A world of hobbies awaits you.</title>
-<meta name="description" content="Hobbyo is coming soon. Discover, learn and fall in love with a new hobby. A world of hobbies awaits you.">
+<meta name="description" content="Hobbyo is coming soon. Painting, music, dance, chess, karate and more. Hobbies and arts for children up to 18. A world of hobbies awaits you.">
 <meta property="og:title" content="Hobbyo. Coming soon.">
 <meta property="og:description" content="A world of hobbies awaits you. Launching soon at hobbyo.in">
 <meta property="og:type" content="website">
@@ -114,7 +114,7 @@
     50% { opacity: .35; transform: scale(.7); }
   }
 
-  /* ---------- gallery ---------- */
+  /* ---------- main ---------- */
   main {
     position: relative;
     z-index: 2;
@@ -123,77 +123,104 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 0 20px clamp(40px, 7svh, 90px);
+    padding: 0 0 clamp(40px, 7svh, 90px);
   }
 
+  /* ---------- endless gallery marquee ---------- */
   .gallery {
     position: relative;
     width: 100%;
+    overflow: hidden;
+    padding: clamp(12px, 3svh, 30px) 0 clamp(28px, 5svh, 58px);
+    opacity: 0;
+    animation: fadeUp 1.6s ease .4s forwards;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, black 7%, black 93%, transparent 100%);
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: marquee 70s linear infinite;
+    will-change: transform;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  .set {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: clamp(18px, 3.4vw, 56px);
-    padding: clamp(10px, 3svh, 30px) 0 clamp(26px, 5svh, 56px);
+    gap: clamp(20px, 3vw, 48px);
+    padding-right: clamp(20px, 3vw, 48px);
   }
 
   .painting {
-    position: relative;
     flex: 0 0 auto;
-    width: clamp(96px, 11.5vw, 168px);
+    animation: bob 7s ease-in-out infinite alternate;
+  }
+  .set .painting:nth-child(2n)  { animation-duration: 8.5s; animation-delay: -2.5s; }
+  .set .painting:nth-child(3n)  { animation-duration: 9.5s; animation-delay: -5s; }
+  @keyframes bob {
+    from { transform: translateY(0); }
+    to   { transform: translateY(-7px); }
+  }
+
+  .frame {
+    width: clamp(112px, 12.5vw, 176px);
     aspect-ratio: 5 / 4;
     background: #fff;
     padding: 6px;
     box-shadow:
       0 1px 2px rgba(43,43,40,.10),
       0 14px 28px -14px rgba(43,43,40,.28);
-    opacity: 0;
-    transform: translateY(26px);
-    animation: riseIn 1.3s cubic-bezier(.19,1,.22,1) forwards;
-    will-change: transform;
-    transition: transform .35s ease;
   }
-  .painting:nth-child(1) { animation-delay: .35s; aspect-ratio: 3 / 4; width: clamp(78px, 8.6vw, 126px); }
-  .painting:nth-child(2) { animation-delay: .50s; }
-  .painting:nth-child(3) { animation-delay: .65s; }
-  .painting:nth-child(4) { animation-delay: .80s; }
-  .painting:nth-child(5) { animation-delay: .95s; }
-  .painting:nth-child(6) { animation-delay: 1.10s; aspect-ratio: 3 / 4; width: clamp(78px, 8.6vw, 126px); }
+  .painting.portrait .frame {
+    width: clamp(92px, 10vw, 140px);
+    aspect-ratio: 3 / 4;
+  }
+  .set .painting:nth-child(2n) .frame { transform: rotate(.5deg); }
+  .set .painting:nth-child(2n+1) .frame { transform: rotate(-.5deg); }
 
-  @keyframes riseIn {
-    to { opacity: 1; transform: translateY(0); }
+  .canvas {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
+  .canvas svg {
+    width: 62%;
+    height: 62%;
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 3.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    opacity: .82;
+  }
+  .canvas svg .fill { fill: var(--ink); stroke: none; }
 
-  .canvas { width: 100%; height: 100%; }
+  /* pastel washes */
+  .w-mint   { background: linear-gradient(170deg, #d4e7dc 0%, #bcd9cb 100%); }
+  .w-sky    { background: linear-gradient(170deg, #d3e2ee 0%, #bdd5e6 100%); }
+  .w-sand   { background: linear-gradient(170deg, #f0e7d5 0%, #e7dabf 100%); }
+  .w-blush  { background: linear-gradient(170deg, #f3dcd6 0%, #edccc4 100%); }
+  .w-butter { background: linear-gradient(170deg, #f6e8c0 0%, #f0dda6 100%); }
+  .w-lilac  { background: linear-gradient(170deg, #e4d6e8 0%, #d8c5de 100%); }
 
-  /* pastel artworks, painted in CSS */
-  .art-daisy {
-    background:
-      radial-gradient(26% 22% at 50% 52%, #f2c94c 0%, #f2c94c 55%, transparent 56%),
-      radial-gradient(80% 34% at 50% 20%, #ffffff 0%, transparent 60%),
-      radial-gradient(80% 34% at 50% 84%, #ffffff 0%, transparent 60%),
-      radial-gradient(34% 80% at 18% 52%, #ffffff 0%, transparent 60%),
-      radial-gradient(34% 80% at 82% 52%, #ffffff 0%, transparent 60%),
-      linear-gradient(180deg, #bfe3d9 0%, #a8d8cf 100%);
-  }
-  .art-shore {
-    background: linear-gradient(180deg, #bcd9e4 0%, #bcd9e4 58%, #e9e2d2 59%, #f3ede0 100%);
-  }
-  .art-meadow {
-    background: linear-gradient(180deg, #cfe0c8 0%, #b7d2ad 55%, #9ec39a 100%);
-  }
-  .art-sunset {
-    background: linear-gradient(180deg, #f0b95e 0%, #eeaf57 46%, #e0654e 52%, #7fb98a 58%, #6aae7f 100%);
-  }
-  .art-dawn {
-    background: linear-gradient(180deg, #f3d47c 0%, #eec86f 62%, #e8a3a0 68%, #f2e3d5 100%);
-  }
-  .art-lilac {
-    background:
-      radial-gradient(30% 24% at 58% 78%, rgba(43,43,40,.45) 0%, rgba(43,43,40,.45) 52%, transparent 53%),
-      linear-gradient(180deg, #d6b6d4 0%, #c9a7cd 100%);
+  .placard {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
   }
 
-  /* headline sits over the gallery */
+  /* headline over the moving wall */
   .headline {
     position: absolute;
     inset: 0;
@@ -202,6 +229,7 @@
     justify-content: center;
     pointer-events: none;
     z-index: 3;
+    padding: 0 16px;
   }
   .headline h1 {
     font-family: 'Cormorant Garamond', serif;
@@ -211,8 +239,9 @@
     text-align: center;
     color: var(--ink);
     text-shadow:
-      0 0 22px rgba(247,245,241,.9),
-      0 0 46px rgba(247,245,241,.75);
+      0 0 22px rgba(247,245,241,.95),
+      0 0 46px rgba(247,245,241,.85),
+      0 0 70px rgba(247,245,241,.7);
     max-width: 14em;
   }
   .headline .word {
@@ -229,6 +258,7 @@
   .below {
     text-align: center;
     max-width: 620px;
+    padding: 0 20px;
     opacity: 0;
     animation: fadeUp 1.2s ease 1.9s forwards;
   }
@@ -315,24 +345,22 @@
   }
 
   /* ---------- responsive ---------- */
-  @media (max-width: 900px) {
-    .painting:nth-child(1), .painting:nth-child(6) { display: none; }
-    .painting { width: clamp(104px, 17vw, 150px); }
-  }
   @media (max-width: 560px) {
-    .painting:nth-child(5) { display: none; }
-    .painting { width: clamp(92px, 26vw, 120px); }
-    .gallery { gap: 16px; }
+    .frame { width: clamp(96px, 26vw, 120px); }
+    .painting.portrait .frame { width: clamp(80px, 21vw, 100px); }
     .headline h1 { font-size: clamp(34px, 10.5vw, 48px); }
+    .track { animation-duration: 45s; }
+    .placard { letter-spacing: .22em; }
   }
 
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: .01ms !important;
       animation-delay: 0ms !important;
+      animation-iteration-count: 1 !important;
       transition-duration: .01ms !important;
     }
-    .painting, .headline .word, header, .below, footer, .light { opacity: 1; transform: none; }
+    .headline .word, header, .below, footer, .light, .gallery { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -347,13 +375,184 @@
   </header>
 
   <main>
-    <div class="gallery" aria-hidden="true">
-      <div class="painting"><div class="canvas art-daisy"></div></div>
-      <div class="painting"><div class="canvas art-shore"></div></div>
-      <div class="painting"><div class="canvas art-meadow"></div></div>
-      <div class="painting"><div class="canvas art-sunset"></div></div>
-      <div class="painting"><div class="canvas art-dawn"></div></div>
-      <div class="painting"><div class="canvas art-lilac"></div></div>
+    <div class="gallery">
+      <div class="track" aria-hidden="true">
+
+        <!-- set 1 -->
+        <div class="set">
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-mint">
+              <svg viewBox="0 0 100 100"><path d="M50 20 C70 20 84 32 84 47 C84 58 76 63 66 61 C59 60 55 64 56 70 C57 77 52 82 44 82 C28 82 16 68 16 50 C16 32 31 20 50 20 Z"/><circle class="fill" cx="36" cy="38" r="3.5"/><circle class="fill" cx="52" cy="32" r="3.5"/><circle class="fill" cx="66" cy="42" r="3.5"/><circle class="fill" cx="32" cy="54" r="3.5"/></svg>
+            </div></div>
+            <figcaption class="placard">Painting</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-sky">
+              <svg viewBox="0 0 100 100"><path d="M42 62 V30 L64 26 V58 M42 38 L64 34"/><ellipse class="fill" cx="36" cy="63" rx="6" ry="4.5"/><ellipse class="fill" cx="58" cy="59" rx="6" ry="4.5"/></svg>
+            </div></div>
+            <figcaption class="placard">Music</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-blush">
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="20" r="6"/><path d="M32 16 C38 24 44 30 50 32 C56 30 62 24 68 16 M50 32 V48 M50 48 L36 62 H64 Z M44 62 L40 82 M56 62 L60 82"/></svg>
+            </div></div>
+            <figcaption class="placard">Dance</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-butter">
+              <svg viewBox="0 0 100 100"><path d="M32 24 C44 18 56 18 68 24 C71 42 67 60 50 71 C33 60 29 42 32 24 Z M38 38 Q42 33 46 37 M54 37 Q58 33 62 38 M38 50 Q50 62 62 50"/></svg>
+            </div></div>
+            <figcaption class="placard">Theatre</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-sand">
+              <svg viewBox="0 0 100 100"><path d="M40 20 H60 M44 20 C44 28 40 32 36 38 C29 47 30 60 37 68 C41 73 46 76 50 76 C54 76 59 73 63 68 C70 60 71 47 64 38 C60 32 56 28 56 20 M42 82 H58"/></svg>
+            </div></div>
+            <figcaption class="placard">Pottery</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-lilac">
+              <svg viewBox="0 0 100 100"><path d="M62 34 L70 42 L36 76 L24 80 L28 70 Z M58 38 L66 46 M22 88 Q42 82 62 88"/></svg>
+            </div></div>
+            <figcaption class="placard">Sketching</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-sky">
+              <svg viewBox="0 0 100 100"><path d="M34 78 H66 M40 78 V70 H60 V78 M44 70 L42 44 H58 L56 70 M42 44 L42 30 L48 30 L48 36 L52 36 L52 30 L58 30 L58 44 Z"/></svg>
+            </div></div>
+            <figcaption class="placard">Chess</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-mint">
+              <svg viewBox="0 0 100 100"><circle cx="52" cy="24" r="7"/><path d="M50 31 L42 54 M48 37 L30 46 M48 37 L64 28 M42 54 L70 48 M42 54 L38 78"/></svg>
+            </div></div>
+            <figcaption class="placard">Karate</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-sand">
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="29"/><path d="M50 37 L62 46 L57 60 L43 60 L38 46 Z M50 37 V21 M62 46 L76 42 M57 60 L66 74 M43 60 L34 74 M38 46 L24 42"/></svg>
+            </div></div>
+            <figcaption class="placard">Football</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-blush">
+              <svg viewBox="0 0 100 100"><path d="M45 12 H53 L56 54 C56 63 52 68 49 68 C46 68 42 63 42 54 Z M45 20 H54"/><circle cx="68" cy="66" r="9"/><path d="M64 59 C60 64 60 68 64 73"/></svg>
+            </div></div>
+            <figcaption class="placard">Cricket</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-sky">
+              <svg viewBox="0 0 100 100"><circle cx="46" cy="38" r="6"/><path d="M52 44 C60 36 68 34 76 40 M18 62 Q26 56 34 62 T50 62 T66 62 T82 62 M18 72 Q26 66 34 72 T50 72 T66 72 T82 72"/></svg>
+            </div></div>
+            <figcaption class="placard">Swimming</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-butter">
+              <svg viewBox="0 0 100 100"><rect x="32" y="38" width="36" height="30" rx="6"/><path d="M50 38 V28 M32 52 H26 M68 52 H74 M43 60 H57"/><circle class="fill" cx="50" cy="25" r="3"/><circle class="fill" cx="43" cy="51" r="3"/><circle class="fill" cx="57" cy="51" r="3"/></svg>
+            </div></div>
+            <figcaption class="placard">Robotics</figcaption>
+          </figure>
+        </div>
+
+        <!-- set 2, identical copy for the seamless loop -->
+        <div class="set">
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-mint">
+              <svg viewBox="0 0 100 100"><path d="M50 20 C70 20 84 32 84 47 C84 58 76 63 66 61 C59 60 55 64 56 70 C57 77 52 82 44 82 C28 82 16 68 16 50 C16 32 31 20 50 20 Z"/><circle class="fill" cx="36" cy="38" r="3.5"/><circle class="fill" cx="52" cy="32" r="3.5"/><circle class="fill" cx="66" cy="42" r="3.5"/><circle class="fill" cx="32" cy="54" r="3.5"/></svg>
+            </div></div>
+            <figcaption class="placard">Painting</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-sky">
+              <svg viewBox="0 0 100 100"><path d="M42 62 V30 L64 26 V58 M42 38 L64 34"/><ellipse class="fill" cx="36" cy="63" rx="6" ry="4.5"/><ellipse class="fill" cx="58" cy="59" rx="6" ry="4.5"/></svg>
+            </div></div>
+            <figcaption class="placard">Music</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-blush">
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="20" r="6"/><path d="M32 16 C38 24 44 30 50 32 C56 30 62 24 68 16 M50 32 V48 M50 48 L36 62 H64 Z M44 62 L40 82 M56 62 L60 82"/></svg>
+            </div></div>
+            <figcaption class="placard">Dance</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-butter">
+              <svg viewBox="0 0 100 100"><path d="M32 24 C44 18 56 18 68 24 C71 42 67 60 50 71 C33 60 29 42 32 24 Z M38 38 Q42 33 46 37 M54 37 Q58 33 62 38 M38 50 Q50 62 62 50"/></svg>
+            </div></div>
+            <figcaption class="placard">Theatre</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-sand">
+              <svg viewBox="0 0 100 100"><path d="M40 20 H60 M44 20 C44 28 40 32 36 38 C29 47 30 60 37 68 C41 73 46 76 50 76 C54 76 59 73 63 68 C70 60 71 47 64 38 C60 32 56 28 56 20 M42 82 H58"/></svg>
+            </div></div>
+            <figcaption class="placard">Pottery</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-lilac">
+              <svg viewBox="0 0 100 100"><path d="M62 34 L70 42 L36 76 L24 80 L28 70 Z M58 38 L66 46 M22 88 Q42 82 62 88"/></svg>
+            </div></div>
+            <figcaption class="placard">Sketching</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-sky">
+              <svg viewBox="0 0 100 100"><path d="M34 78 H66 M40 78 V70 H60 V78 M44 70 L42 44 H58 L56 70 M42 44 L42 30 L48 30 L48 36 L52 36 L52 30 L58 30 L58 44 Z"/></svg>
+            </div></div>
+            <figcaption class="placard">Chess</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-mint">
+              <svg viewBox="0 0 100 100"><circle cx="52" cy="24" r="7"/><path d="M50 31 L42 54 M48 37 L30 46 M48 37 L64 28 M42 54 L70 48 M42 54 L38 78"/></svg>
+            </div></div>
+            <figcaption class="placard">Karate</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-sand">
+              <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="29"/><path d="M50 37 L62 46 L57 60 L43 60 L38 46 Z M50 37 V21 M62 46 L76 42 M57 60 L66 74 M43 60 L34 74 M38 46 L24 42"/></svg>
+            </div></div>
+            <figcaption class="placard">Football</figcaption>
+          </figure>
+
+          <figure class="painting portrait">
+            <div class="frame"><div class="canvas w-blush">
+              <svg viewBox="0 0 100 100"><path d="M45 12 H53 L56 54 C56 63 52 68 49 68 C46 68 42 63 42 54 Z M45 20 H54"/><circle cx="68" cy="66" r="9"/><path d="M64 59 C60 64 60 68 64 73"/></svg>
+            </div></div>
+            <figcaption class="placard">Cricket</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-sky">
+              <svg viewBox="0 0 100 100"><circle cx="46" cy="38" r="6"/><path d="M52 44 C60 36 68 34 76 40 M18 62 Q26 56 34 62 T50 62 T66 62 T82 62 M18 72 Q26 66 34 72 T50 72 T66 72 T82 72"/></svg>
+            </div></div>
+            <figcaption class="placard">Swimming</figcaption>
+          </figure>
+
+          <figure class="painting">
+            <div class="frame"><div class="canvas w-butter">
+              <svg viewBox="0 0 100 100"><rect x="32" y="38" width="36" height="30" rx="6"/><path d="M50 38 V28 M32 52 H26 M68 52 H74 M43 60 H57"/><circle class="fill" cx="50" cy="25" r="3"/><circle class="fill" cx="43" cy="51" r="3"/><circle class="fill" cx="57" cy="51" r="3"/></svg>
+            </div></div>
+            <figcaption class="placard">Robotics</figcaption>
+          </figure>
+        </div>
+
+      </div>
 
       <div class="headline">
         <h1>
@@ -368,12 +567,12 @@
     </div>
 
     <div class="below">
-      <p>Painting, pottery, music, chess, gardening and a hundred things you always wanted to try. Hobbyo is where you finally begin. We are opening the doors soon.</p>
+      <p>Painting, music, dance, pottery, chess, karate and a hundred things young minds love to try. Hobbyo is where children up to 18 discover their thing. We are opening the doors soon.</p>
 
       <form class="notify" id="notifyForm" action="https://formsubmit.co/hiiiiii2023@gmail.com" method="POST">
         <input type="hidden" name="_subject" value="Hobbyo waitlist signup">
         <input type="hidden" name="_captcha" value="false">
-        <label for="email" class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
+        <label for="email" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email address</label>
         <input id="email" type="email" name="email" placeholder="Your email address" required autocomplete="email">
         <button type="submit">Notify me</button>
       </form>
@@ -385,28 +584,6 @@
 </div>
 
 <script>
-  // gentle parallax on the paintings, desktop only
-  (function () {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (!window.matchMedia('(pointer: fine)').matches) return;
-
-    var paintings = document.querySelectorAll('.painting');
-    var raf = null;
-
-    document.addEventListener('mousemove', function (e) {
-      if (raf) return;
-      raf = requestAnimationFrame(function () {
-        var x = (e.clientX / window.innerWidth - 0.5);
-        var y = (e.clientY / window.innerHeight - 0.5);
-        paintings.forEach(function (p, i) {
-          var depth = 4 + (i % 3) * 3;
-          p.style.transform = 'translate(' + (-x * depth) + 'px,' + (-y * depth) + 'px)';
-        });
-        raf = null;
-      });
-    });
-  })();
-
   // submit the waitlist form in the background, keep the user on the page
   (function () {
     var form = document.getElementById('notifyForm');
